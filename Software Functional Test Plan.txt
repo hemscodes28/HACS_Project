@@ -1,0 +1,138 @@
+Software Functional Test Plan
+
+This section describes the detailed testing approach for the HACS (Home Appliance Control System) software, focusing on verifying that all functional and performance requirements are correctly implemented as specified in the SRS document.
+Functional testing ensures that each module of the HACS performs its intended operations, while performance testing validates the system’s responsiveness, stability, and efficiency under normal and stress conditions.
+The primary objectives of this testing phase are to:
+•	Ensure that all system functionalities behave as expected.
+•	Validate the integration between software components (e.g., user interface, database, and device controller).
+•	Verify error-handling, data validation, and user feedback mechanisms.
+•	Confirm that the software meets all user and system-level functional requirements prior to deployment.
+
+4.1 Test Case Design for “HACS Appliance Controller List”
+
+This section describes the test cases for verifying the functionality of the Appliance Controller List, a key feature that allows users to view, manage, and interact with all connected home appliances.
+The purpose of these tests is to ensure that the system accurately retrieves appliance data, displays it to the user, and allows further operations such as adding, removing, or editing appliances.
+
+4.1.1 Test Case Specification and Design for “HACS Appliance Controller List”
+Features to be tested:
+•	Displaying a list of all connected appliances.
+•	Ensuring the system fetches appliance details (name, type, status) from the database.
+•	Allowing the user to view appliance information from different devices (mobile, desktop, etc.).
+•	Verifying that only authenticated users can access the appliance list.
+•	Handling scenarios where no appliances are connected or when database access fails.
+Requirements:
+•	As listed in Section 3.1 of the SRS: The system must provide an updated and interactive list of all appliances connected to the HACS network.
+•	The appliance list must be automatically synchronized with the database to reflect real-time updates.
+•	The system must ensure that only authorized users can view and modify appliance information.
+Expected Behaviour:
+•	Upon successful login, the user should see the complete list of all connected appliances.
+•	The system should display each appliance’s name, type, and current status (ON/OFF/Idle).
+•	If no appliances are connected, the system should display a message: “No appliances found.”
+•	The appliance list should refresh automatically when new devices are added or removed.
+•	Unauthorized access attempts should trigger an appropriate error message.
+
+Test Case Design:
+
+Test Id.	Inputs Required	Environment Needs	Output Expected
+4.1.1.1	User logs in with valid credentials; system connected to database with existing appliances.	Active HACS dashboard; stable network connection.	List of all connected appliances displayed with details (name, type, status).
+4.1.1.2	User logs in with valid credentials; database contains no appliances.	Active HACS dashboard.	System displays message: “No appliances found.”
+4.1.1.3	User attempts to access appliance list without logging in.	Application in unauthorized mode.	Error message: “Access denied. Please log in to view appliances.”
+4.1.1.4	Database connection interrupted during appliance list retrieval.	Database service disconnected.	Error message displayed: “Unable to fetch appliance list. Please try again later.”
+4.1.1.5	User adds a new appliance (“Smart Fan”).	System connected to appliance database.	Appliance list updates dynamically to include “Smart Fan.”
+4.1.1.6	User removes an existing appliance (“Smart Light”).	Database active.	Appliance successfully removed and list updates accordingly.
+4.1.1.7	User refreshes the list after adding multiple devices.	Network and UI active.	Appliance list refreshes and displays all devices in real-time.
+ 
+4.1.2 Test Case Specification and Design for “Adding Appliance Operation”
+Features to be tested:
+•	The functionality that allows users to add a new appliance to the Home Appliance Control System (HACS).
+•	Ensuring the system correctly registers the new appliance and stores its details in the database.
+•	Validating that the appliance type, name, and configuration details are correctly entered and reflected in the appliance list.
+•	Checking that duplicate appliance entries are prevented.
+•	Ensuring that only authenticated users can perform the add-appliance operation.
+
+Requirements:
+•	As listed in Section 3.2 of the SRS:
+o	The system must allow users to add new smart appliances to the network by providing the required details (appliance name, type, unique ID, and network configuration).
+o	The added appliance must be stored in the database and should immediately appear in the appliance controller list.
+o	Validation checks must be performed to ensure that:
+	No duplicate appliances (same ID or name) are added.
+	All required input fields are correctly filled before submission.
+o	The system must display appropriate success or error messages depending on the result of the operation.
+
+Expected Behaviour:
+•	When a user adds a new appliance and submits the form with valid details, the system should successfully add the appliance to the HACS database.
+•	The new appliance should instantly appear in the appliance controller list on the dashboard.
+•	If the user attempts to add an appliance that already exists, the system should display an error message such as: “Appliance already exists in the system.”
+•	If any mandatory field is left blank, the system should prompt the user with: “Please fill all required fields.”
+•	Only authorized users (those who are logged in) should be able to perform this operation; unauthorized attempts should show “Access denied.”
+ 
+Test Case Design: 
+
+Test ID	Inputs Required	Environment Needs	Output Expected
+4.1.2.1	User enters valid appliance details (e.g., Name: Smart Fan, Type: Fan, ID: A1001).	Active HACS system with database connection.	Appliance successfully added; confirmation message displayed; appliance visible in the list.
+4.1.2.2	User tries to add an appliance with missing required fields (e.g., leaves Type blank).	HACS application running.	Error message displayed: “Please fill all required fields.” Appliance not added.
+4.1.2.3	User attempts to add an appliance that already exists in the database (duplicate ID or name).	Database with existing Smart Fan entry.	System displays: “Appliance already exists in the system.” Duplicate entry not allowed.
+4.1.2.4	User tries to add an appliance without logging in.	Application in unauthorized mode.	Error message displayed: “Access denied. Please log in to continue.”
+4.1.2.5	Network disconnects during appliance addition.	Internet/network connection interrupted.	System displays: “Network error. Please try again later.” Appliance not added.
+4.1.2.6	User adds multiple appliances sequentially (Smart Light, Smart TV, Smart AC).	Stable database connection.	All appliances added successfully; reflected in the appliance list immediately.
+4.1.2.7	User adds appliance with invalid ID format (e.g., “###”).	HACS validation rules active.	Validation error displayed: “Invalid appliance ID format.” Appliance not added.
+
+4.1.3 Test Case Specification and Design for “Removing Appliance Operation”
+Features to be tested:
+•	The functionality that allows users to remove or delete an appliance from the HACS system.
+•	Ensuring that only valid and existing appliances can be removed from the appliance list.
+•	Verifying that once an appliance is deleted, it is no longer displayed in the appliance controller list or accessible through the system.
+•	Checking that only authenticated and authorized users can perform this delete operation.
+•	Confirming that the system updates the database immediately after removal.
+
+Requirements:
+•	As listed in Section 3.3 of the SRS:
+o	The system should allow users to remove a registered appliance from the database when it is no longer needed.
+o	The user must confirm the delete action before the appliance is permanently removed.
+o	Once deleted, the appliance data must not appear in the appliance controller list or in any other related modules.
+o	The system must handle invalid deletion attempts gracefully (e.g., when an appliance ID does not exist).
+o	Only logged-in users with sufficient privileges can remove an appliance.
+
+Expected Behaviour:
+•	When a valid appliance is selected and the user confirms deletion, the system should remove it from the database.
+•	The appliance should no longer appear in the appliance controller list or dashboard.
+•	A confirmation message such as “Appliance successfully removed” should be displayed.
+•	If a non-existent appliance ID is entered, the system should display “Appliance not found.”
+•	If the user cancels the delete action, the appliance should remain unchanged.
+•	Unauthorized or unauthenticated users attempting to delete an appliance should see “Access denied.”
+•	The database should remain consistent after each delete operation (no orphaned references).
+Test Case Design: 
+
+Test ID	Inputs Required	Environment Needs	Output Expected
+4.1.3.1	Select a valid appliance from the list (e.g., Smart Fan → Delete).	User logged in; active HACS system with connected database.	Appliance successfully removed; confirmation message displayed; appliance no longer visible in list.
+4.1.3.2	Attempt to delete an appliance that does not exist (e.g., ID A9999).	Active HACS system.	Error message displayed: “Appliance not found.”
+4.1.3.3	Attempt to delete without logging in.	Unauthorized user session.	System displays: “Access denied. Please log in to continue.”
+4.1.3.4	User selects a valid appliance but cancels deletion in confirmation dialog.	System prompts confirmation popup.	Appliance remains in list; no data deleted.
+4.1.3.5	Delete multiple appliances consecutively (e.g., Smart Light, Smart AC).	Active connection with database.	Each appliance successfully removed; list updated dynamically.
+4.1.3.6	Delete appliance during temporary network disconnection.	Network interrupted during operation.	System shows: “Network error. Please try again later.” No appliance deleted.
+4.1.3.7	Attempt to delete an appliance while database is busy (locked).	Database transaction in progress.	System waits and retries, or displays: “Operation failed. Please try again.” Appliance not removed.
+
+4.2 Test Case Design for Controlling Appliance Operations (Turn ON/OFF)
+Features to be tested:
+•	Functionality that allows users to remotely control connected home appliances using the HACS interface (e.g., turning ON/OFF lights, fans, TVs, and other devices).
+•	Validation that the command from the user interface successfully communicates with the appliance through the control module.
+•	Ensuring that the appliance status updates correctly in the system after every operation.
+•	Confirming that only authenticated users can send control commands.
+•	Checking the system’s response in case of network failure or appliance unavailability.
+
+
+
+Requirements:
+•	As specified in Section 3.4 of the SRS:
+o	The system must provide a control panel that allows users to send ON/OFF or other operation commands to any connected appliance.
+o	The command must be transmitted to the respective device module through the network.
+o	The appliance should update its current state (ON/OFF) in both the user interface and the database.
+o	Unauthorized users must not be able to control appliances.
+o	The system must handle command transmission failures gracefully by showing appropriate error messages.
+Expected Behaviour:
+•	When a user selects an appliance and clicks “Turn ON”, the system should send a valid ON signal to the appliance, which should activate immediately.
+•	The status on the dashboard should change to “ON” and be stored in the database.
+•	Similarly, clicking “Turn OFF” should deactivate the appliance and update the dashboard and database accordingly.
+•	If the appliance is disconnected or offline, the system should display an alert such as “Device not responding. Please check connection.”
+•	Unauthorized users should not be able to perform any operation and must see “Access denied.”
+•	The response time for each control action should be within 2–3 seconds for optimal performance.

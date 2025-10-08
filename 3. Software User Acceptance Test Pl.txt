@@ -1,0 +1,163 @@
+3. Software User Acceptance Test Plan 
+This section describes the details of the plan for the user acceptance test (UAT).  Some representatives from the Client are required for this testing session.  The number of representative test cases should be subject to the mutual agreement between the Client and SwinTech.  The SwinTech development team will demonstrate the functionalities of the HACS using the following test specifications. 
+
+Key points regarding UAT:
+•	Representatives from the Client will participate in the testing session to validate that the system works according to their expectations.
+•	Only the critical and high-priority features are included in this plan to demonstrate the core functionality of the system.
+•	The number and scope of test cases will be agreed upon mutually between SwinTech and the Client.
+•	The SwinTech team will demonstrate each functionality, collect feedback, and record the outcome of each test case.
+
+ 
+3.1 Test Case Design for “HACS Authentication” 
+This section focuses on testing the user authentication process, including account creation, login, and secure access management. The goal is to ensure that users can access the system securely and that invalid credentials are handled appropriately.
+
+
+
+
+
+3.1.1 Test Case Specification and Design for “Authentication based upon valid username and password”
+Features to be tested:
+•	User can create an account successfully.
+•	User can log in using valid credentials.
+•	System correctly validates username and password.
+Requirements:
+•	Login functionality as defined in Section 4.1.1 of the Functional Test Plan.
+•	Secure storage of user credentials in the database.
+•	Error messages for invalid login attempts.
+Expected Behaviour:
+•	Users with valid credentials are granted access to the HACS system.
+•	Invalid username or password triggers an appropriate error message.
+•	User session is correctly maintained after login.
+
+
+Test Case Design:
+
+	Inputs Required	Environment Needs	Output Expected
+3.1.1.1	Username: user1 
+Password:Password@123	HACS system running on server	Account is created and stored successfully in database
+3.1.1.2	Username: user1 
+Password: Password@123	HACS login interface	User logs in successfully and redirected to home page
+3.1.1.3	Username: user1 
+Password: wrongpass	HACS login interface	Login fails with message: “Invalid username or password”
+3.1.1.4	Username: none Password: test	HACS login interface	Login fails with message: “User does not exist”
+3.1.1.5	Blank username Blank password	HACS login interface	Login fails with message: “Please enter credentials”
+3.1.1.6	Valid username Empty password	HACS login interface	Login fails with message: “Password cannot be empty”
+3.1.1.7	Multiple failed attempts (>3)	HACS login interface	Account temporarily locked; message displayed
+ 
+ 
+
+
+
+
+
+
+
+3.1.2 Test Cases Specification and Design for “Password Recovery and Reset Functionality” 
+Features to be tested:
+•	Password recovery using registered email address.
+•	Verification of user identity before resetting password.
+•	Successful password reset and login with the new password.
+Requirements:
+•	Password recovery module as described in Section 4.2.2 of the Functional Test Plan.
+•	The system must validate the email address and send a reset link securely.
+•	Reset password must comply with security requirements (minimum 8 characters, includes symbols and digits).
+Expected Behaviour:
+•	User should receive a password reset link on their registered email.
+•	On clicking the link, the user should be redirected to the password reset page.
+•	New password should be updated successfully, and user should be able to log in with it.
+ 
+Test Case Design: 
+
+Test Id.	Inputs Required	Environment Needs	Output Expected
+3.1.2.1	Registered email: user1@mail.com
+HACS email service enabled	Password reset link sent successfully to the email.
+3.1.2.2	Invalid email: abc123@gmail.com
+HACS web interface active	Error: “Email not found in system.”
+3.1.2.3	Registered email link click + new password: NewPass@123	Active internet connection, HACS reset page	Password updated successfully and confirmation message displayed.
+3.1.2.4	Expired reset link	HACS system with expired token	Error message: “Reset link expired. Please try again.”
+3.1.2.5	Weak new password: 12345	HACS reset page	Error message: “Password must meet complexity requirements.”
+
+3.1.3 Test Cases Specification and Design for “Logout and Session Management”
+Features to be tested:
+•	Logging out securely from the system.
+•	Automatic session timeout after inactivity.
+•	Prevention of access after session termination.
+Requirements:
+•	Logout and session management module as per Section 4.3.1 of Functional Test Plan.
+•	The session must end once the user logs out or after 15 minutes of inactivity.
+•	The user should not be able to access any previous session pages after logging out.
+
+Expected Behaviour:
+•	System should terminate user session securely upon logout.
+•	User is redirected to the login screen after logout.
+•	Attempting to access restricted pages post-logout should redirect to login.
+
+Test Id.	Inputs Required	Environment Needs	Output Expected
+3.1.3.1	Click “Logout” button	Active HACS session	Redirected to login page; session terminated.
+3.1.3.2	Reopen previous session URL	Browser cache	Access denied; redirected to login screen.
+3.1.3.3	Idle for 15 minutes	HACS web session	Automatic logout triggered; session expired message.
+3.1.3.4	Logout during operation	HACS interface active	Ongoing operation stopped; redirected to login.
+3.1.3.5	Attempt login after logout	HACS login page	Successful re-login possible with valid credentials.
+
+
+
+3.2 Test Case Design for “HACS Appliance Controller”
+
+This section describes the test cases for verifying how the software manages connected home appliances through the controller interface.
+The purpose is to ensure that appliances can be viewed, added, removed, and controlled (turned ON/OFF or scheduled) through the system interface accurately.
+The following subsections include the detailed test case designs.
+
+3.2.1Test Case Specification and Design “Viewing and Managing Appliance List”
+Features to be tested:
+•	Displaying all connected appliances in the user’s account.
+•	Adding new appliances to the list.
+•	Removing or updating appliance details.
+Requirements:
+•	Appliance management module as defined in Section 4.4.1 of the Functional Test Plan.
+•	System should correctly fetch appliance data from the database.
+•	The list should update dynamically when appliances are added or removed.
+
+
+
+Expected Behaviour:
+•	System displays an accurate list of appliances connected to the user’s account.
+•	Adding or removing an appliance should instantly reflect in the displayed list.
+•	Errors should be shown for invalid or duplicate appliance entries.
+ 
+Test Case Design: 
+
+Test Id.	Inputs Required	Environment Needs	Output Expected
+3.2.1.1	User login credentials	HACS system active	Appliance list displayed successfully.
+3.2.1.2	Add appliance: “Smart Light”	Database connection established	“Smart Light” added to list successfully.
+3.2.1.3	Add duplicate appliance: “Smart Light”	HACS appliance menu open	Error: “Appliance already exists.”
+3.2.1.4	Remove appliance: “Smart Light”	Appliance present in database	Appliance removed successfully from list.
+3.2.1.5	Add invalid appliance data (missing name)	Appliance input form active	Error: “Please enter appliance name.”
+3.2.1.6	Refresh appliance list	Internet connected	Updated list displayed instantly.
+ 
+3.2.2 Test Case Specification and Design for “Scheduling Appliance Operations”
+Features to be tested:
+•	Allow users to set schedules for appliances to turn ON or OFF automatically at specific times.
+•	Ensure that the system executes scheduled operations correctly and reliably.
+•	Validate that multiple schedules for different appliances can coexist without conflict.
+•	Verify modification and deletion of existing schedules.
+Requirements:
+•	Scheduling module as defined in Section 4.5.1 of the Functional Test Plan.
+•	The system must allow users to create, edit, and delete schedules for any connected appliance.
+•	Each schedule should store appliance ID, start time, end time, and operation type.
+•	The system should send notifications or visual confirmations upon successful schedule execution.
+•	Time conflicts between schedules must be detected and prevented automatically.
+Expected Behaviour:
+•	User should be able to create and view scheduled tasks for appliances successfully.
+•	Scheduled appliances should automatically operate (ON/OFF) according to the assigned time.
+•	System should display confirmation messages for each successful scheduling action.
+•	If overlapping schedules are detected, the system should notify the user and reject the new schedule.
+•	Users should be able to edit or delete existing schedules and see immediate updates in the interface.
+
+Test Id.	Inputs Required	Environment Needs	Output Expected
+3.2.2.1	Select appliance: “Smart Fan” Set schedule: ON at 7:00 AM, OFF at 9:00 AM	HACS scheduling interface active	Schedule created successfully; confirmation message displayed.
+3.2.2.2	Select appliance: “Smart Fan” Create overlapping schedule: ON at 8:30 AM	Database active; existing schedule present	Error message: “Schedule conflict detected. Please choose another time.”
+3.2.2.3	Edit existing schedule: Change OFF time from 9:00 AM to 10:00 AM	Schedule editor enabled	Schedule updated successfully; confirmation displayed.
+3.2.2.4	Delete schedule for “Smart Fan”	Schedule management interface active	Schedule deleted successfully; removed from schedule list.
+3.2.2.5	Create schedule for “Smart Light” with invalid time format (e.g., 25:00)	HACS input validation active	Error: “Invalid time format. Please use HH:MM AM/PM format.”
+3.2.2.6	Set schedule when system is offline	Server connection unavailable	Error: “Cannot set schedule. Please check internet connection.”
+3.2.2.7	Create multiple valid schedules for different appliances	Database active	All schedules created successfully; system displays consolidated schedule list.

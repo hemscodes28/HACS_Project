@@ -1,0 +1,39 @@
+Software Test Plan 
+This section describes the testing plans for testing the HACS software.  In general, this includes the user acceptance test (UAT) and the functional testing.  Moreover, it is assumed that the next level of testing is performed only when every test plan in the previous testing level has been carried out without any error. 
+The main objectives of this software test plan are:
+•	To validate that the HACS system works according to the requirements specified in the SRS.
+•	To identify any defects, errors, or inconsistencies in the system before it is delivered to the Client.
+•	To provide a structured and traceable framework for testing that ensures all critical features are checked.
+•	To define the roles, responsibilities, and methodology for both functional and user acceptance testing.
+
+ 
+2.1 User Acceptance Test Plan 
+The User Acceptance Test (UAT) Plan focuses on verifying that the HACS software satisfies the critical user requirements and is ready for client demonstration. Only the essential features that the client will interact with during the acceptance testing are included here.
+Before performing UAT:
+•	Ensure all functional tests are completed successfully.
+•	Verify that all critical features such as account creation, appliance control, and scheduling are functioning as expected.
+•	Whenever possible, refer to the relevant functional test case section instead of duplicating information.
+The UAT plan maps the system features to the requirements in the SRS, ensuring that each critical user requirement is covered.
+Functionality	Requirements in SRS	Description / Main Responsibilities	Feature to be Tested	Test Spec. and Design
+Login to the HACS system	Section 3.1	Allow users to create accounts and log in	Account creation & login	Section 3.1.1
+View Appliance List	Section 3.2	Display all appliances connected to HACS	Appliance menu display	Section 3.1.2
+Add New Appliance	Section 3.3	Enable users to add new appliances to system	Adding appliance operation	Section 3.1.3
+Schedule Appliance Operation	Section 3.4	Allow scheduling of appliances	Schedule execution	Section 3.2.1
+Logout / Session Termination	Section 3.5	Securely log out users	Session termination	Section 3.2.2
+
+Table 2 User acceptance test plan 
+ 
+2.2 Functional Test Plan 
+The Functional Test Plan ensures that the HACS system works according to the detailed functional specifications in the SRS. Each test case verifies core system functionalities, including appliance management, user authentication, and scheduling operations.
+Functional testing is performed before UAT, to guarantee that all features are implemented correctly and no errors exist.
+ 
+Table 3 System function test plan 
+Functionality	Requirements in SRS	Description / Main Responsibilities	Feature to be Tested	Test Spec. and Design
+HACS Appliance Controller List	Section 3.1	Display the list of appliances connected to HACS	Menu display and correct listing	Section 4.1.1
+Multiple Appliances Addition	Section 3.2	Add multiple appliances and verify storage	Adding multiple appliances	Section 4.1.2
+Appliance Control Operations	Section 3.3	Turn appliances on/off and adjust settings remotely	Control commands execution	Section 4.1.3
+Scheduling Appliance Operations	Section 3.4	Automate appliance operations based on user schedule	Correct execution of scheduled actions	Section 4.2
+Authentication and Security	Section 3.5	Verify secure login, session management	Login/logout and session termination	Section 4.3
+Error Handling	Section 3.6	Ensure system responds to invalid inputs correctly	Input validation and error messages	Section 4.4
+Data Persistence	Section 3.7	Store appliance and user data in the database	Correct storage and retrieval of data	Section 4.5
+

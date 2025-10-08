@@ -1,0 +1,32 @@
+. Requirements Traceability
+This section documents the relationship between the requirements specified in the Software Requirements Specification (SRS) and the corresponding test cases identified in this Software Test Document (STD).
+The traceability ensures that:
+•	Every requirement in the SRS has been validated by at least one test case.
+•	No test case exists without a corresponding requirement (to prevent redundant testing).
+•	The coverage of all functional and non-functional requirements can be clearly verified.
+Traceability also allows both the Agile Architects development team and the Client to confirm that all intended functionalities of the Home Appliance Control System (HACS) have been tested and validated successfully.
+The table below lists each requirement ID (as per the SRS) and maps it to the corresponding test cases defined in this document. “X” marks indicate the presence of a test case that validates that particular requirement.
+
+
+Requirements in SRS	3.1 (HACS Authentication)	3.2 (User Account Management)	4.1 (Appliance Controller List)	4.2 (Add Appliance Operation)	4.3 (Remove Appliance Operation)	4.4 (Control ON/OFF Operation)
+3.1.1.1 – System shall allow user login with valid credentials.	X					
+3.1.1.2 – System shall reject invalid credentials and display an error.	X					
+3.2.1.1 – System shall allow users to create a new account with required details.		X				
+3.2.1.2 – System shall validate input fields during registration.		X				
+3.3.1.1 – System shall display the list of connected appliances in the HACS dashboard.			X			
+3.3.1.2 – System shall update the appliance list when a new device is added or removed.			X	X	X	
+3.4.1.1 – System shall allow the user to add new appliances to the network.				X		
+3.4.1.2 – System shall prevent adding duplicate appliances.				X		
+3.5.1.1 – System shall allow users to remove existing appliances.					X	
+3.5.1.2 – System shall display confirmation before deleting appliances.					X	
+3.6.1.1 – System shall allow users to control appliances remotely (ON/OFF).						X
+3.6.1.2 – System shall update appliance status after every control action.						X
+3.7.1.1 – System shall restrict unauthorized users from accessing or controlling appliances.	X	X		X	X	X
+3.8.1.1 – System shall handle network errors gracefully during operations.				X	X	X
+
+
+ 
+ 
+ 
+ 
+ 
